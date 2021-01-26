@@ -8,7 +8,9 @@ import lombok.Setter;
 import org.json.simple.JSONObject;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -62,14 +64,36 @@ public class Car {
 
     public void jsonToJsonNode () throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
-        String json="{\"model\":\"tesla\",\"color\":\"white\"}";
-        JsonNode jsonNode=objectMapper.readTree(json);
+        //String json="{\"model\":\"tesla\",\"color\":\"white\"}";
+        JsonObject jsonObject=Json.createObjectBuilder()
+                .add("model","tesla" )
+                .add("color","white" )
+                .build();
+        JsonNode jsonNode=objectMapper.readTree(jsonObject.toString());
         System.out.println(jsonNode.get("model").asText()+" : "+jsonNode.get("color").asText());
     }
     public void jsonArrayToJavaList () throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
-        String jsonArray="[{\"model\":\"tesla\",\"color\":\"white\"},{\"model\":\"audi\",\"color\":\"red\"},{\"model\":\"fiat\",\"color\":\"black\"}]";
-        List<Car> carList=objectMapper
+
+        //String jsonArray="[{\"model\":\"tesla\",\"color\":\"white\"},{\"model\":\"audi\",\"color\":\"red\"},{\"model\":\"fiat\",\"color\":\"black\"}]";
+
+        JsonArray jsonValues=Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("model","tesla" )
+                        .add("color","white" )
+                )
+                .add(Json.createObjectBuilder()
+                        .add("model","audi")
+                        .add("color","red")
+                )
+                .add(Json.createObjectBuilder()
+                        .add("model","fiat")
+                        .add("color","black")
+                )
+                .build();
+
+
+        /*List<Car> carList=objectMapper
                 .readValue(jsonArray,
                         new TypeReference<List<Car>>(){});
         //method one
@@ -77,7 +101,10 @@ public class Car {
                 .readValue(jsonArray,
                         objectMapper
                                 .getTypeFactory()
-                                .constructCollectionType(List.class, Car.class));
+                                .constructCollectionType(List.class, Car.class));*/
+        List<Car> carList=objectMapper
+                .readValue(jsonValues.toString(),
+                        new TypeReference<List<Car>>(){});
         //method two
         for(Car i:carList){
             System.out.println(i.getModel()+" : "+i.getColor());
@@ -85,8 +112,12 @@ public class Car {
         //List<Car> myObject = Arrays.asList(ObjectMapper.readValue(jsonArray, Car[].class));
 
         // converting to a map
-        String json="{\"model\":\"tesla\",\"color\":\"white\"}";
-        Map<String, String> map = objectMapper.readValue(json, new TypeReference<Map<String,String>>(){});
+        //String json="{\"model\":\"tesla\",\"color\":\"white\"}";
+        JsonObject jsonObject=Json.createObjectBuilder()
+                .add("model","audi" )
+                .add("color","red" )
+                .build();
+        Map<String, String> map = objectMapper.readValue(jsonObject.toString(), new TypeReference<Map<String,String>>(){});
         System.out.println(map.toString());
 
     }
