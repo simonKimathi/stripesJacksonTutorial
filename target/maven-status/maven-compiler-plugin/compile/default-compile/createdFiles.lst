@@ -1,1 +1,6 @@
 com/tutorial/jaskson/Car.class
+com/tutorial/jaskson/Car$2.class
+com/tutorial/jaskson/CustomCarDeserializer.class
+com/tutorial/jaskson/CustomCarSerializer.class
+com/tutorial/jaskson/Car$1.class
+com/tutorial/jaskson/Driver.class

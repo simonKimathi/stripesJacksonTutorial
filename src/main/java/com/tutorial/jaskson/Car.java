@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +40,8 @@ public class Car {
     }
     public void jsonToObject() throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
+
+        //JsonObject
         String json="{\"model\":\"audi\",\"color\":\"red\"}";
         //using string
         Car car=objectMapper.readValue(json,Car.class);
