@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -41,10 +43,13 @@ public class Car {
     public void jsonToObject() throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
 
-        //JsonObject
-        String json="{\"model\":\"audi\",\"color\":\"red\"}";
+        JsonObject jsonObject=Json.createObjectBuilder()
+                .add("model","audi" )
+                .add("color","red" )
+                .build();
+        //String json="{\"model\":\"audi\",\"color\":\"red\"}";
         //using string
-        Car car=objectMapper.readValue(json,Car.class);
+        Car car=objectMapper.readValue(jsonObject.toString(),Car.class);
         //using file
         Car car1=objectMapper.readValue(new File("target/car.json"),Car.class);
         //using url
