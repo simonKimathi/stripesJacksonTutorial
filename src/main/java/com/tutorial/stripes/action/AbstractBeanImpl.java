@@ -1,11 +1,19 @@
 package com.tutorial.stripes.action;
 
-public class AbstractBeanImpl implements AbstractBeanI<T, ID> implements CrudAbstractBean<T, ID> {
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+public abstract class AbstractBeanImpl<T, ID> implements AbstractBeanI<T,ID>{
 private final Class<T> entityClass;
 
 protected abstract EntityManager getEntityManager();
 
-public CrudAbstractBeanImpl(Class<T> entityClass){
+public AbstractBeanImpl(Class<T> entityClass){
         this.entityClass=entityClass;
         }
 
